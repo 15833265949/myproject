@@ -2,7 +2,6 @@ package javaAudition
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/siddontang/go/log"
 	"math/rand"
 	"myproject/models"
 	"time"
@@ -15,9 +14,30 @@ type JavaAuditionController struct {
 func (c *JavaAuditionController) Get() {
 	count := models.GetJavaAuditionCount()
 	rand.Seed(time.Now().UnixNano())
-	log.Info(count)
+	var ids []int
 	if count > 10 {
+		for {
+			if len(ids) < 10 {
+
+				id := rand.Intn(count)
+				if !isContain(ids, id) {
+					ids = append(ids, id)
+				}
+			} else {
+				break
+			}
+		}
 
 	}
+	models.GegTenAudition(ids)
 	c.TplName = "javaAudition/javaAudition.html"
+}
+
+func isContain(items []int, item int) bool {
+	for _, eachItem := range items {
+		if eachItem == item {
+			return true
+		}
+	}
+	return false
 }

@@ -5,16 +5,16 @@ import (
 	"myproject/models/mysql"
 )
 
-type JavaAudition struct {
-	id          int    `gorm:"auto_increment"`
-	title       string `grom:"size:255"`
-	optionNum   int
-	optionA     string `grom:"size:255"`
-	optionB     string `grom:"size:255"`
-	optionC     string `grom:"size:255"`
-	optionD     string `grom:"size:255"`
-	answer      string `grom:"size:10"`
-	explanation string `grom:"size:255"`
+type Radio struct {
+	Id          int    `gorm:"auto_increment"`
+	Title       string `grom:"size:255"`
+	OptionNum   int
+	OptionA     string `grom:"size:255"`
+	OptionB     string `grom:"size:255"`
+	OptionC     string `grom:"size:255"`
+	OptionD     string `grom:"size:255"`
+	Answer      string `grom:"size:10"`
+	Explanation string `grom:"size:255"`
 }
 
 func GetJavaAuditionCount() (count int) {
@@ -24,4 +24,20 @@ func GetJavaAuditionCount() (count int) {
 	}
 	db.Table("radio").Count(&count)
 	return
+}
+
+func GegTenAudition(ids []int) {
+	db, err := mysql.GetConnect()
+	if err != nil {
+		logs.Debug("err:%s 数据库连接错误", err)
+	}
+	var audition []Radio
+	logs.Error("%+v ----", ids)
+	find := db.Where("id in (?)", ids).Find(&audition)
+	if find.Error != nil {
+		logs.Error(find.Error)
+	}
+	for _, v := range audition {
+		logs.Error("%+v =====", v)
+	}
 }
