@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{{template "held.html" .}}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaAudition</title>
+
+</head>
+<body>
+<form class="layui-form layui-main" action="">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend></legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <label class="layui-text" style="font-size:20px">1.定义一个包内全局字符串变量，下面语法正确的是（）</label>
+        </div>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="A" title="func" >
+            <input type="radio" name="sex" value="B" title="def">
+            <input type="radio" name="sex" value="C" title="struct" >
+            <input type="radio" name="sex" value="D" title="class">
+        </div>
+    </div>
+
+
+</form>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+
+    });
+</script>
+</body>
+</html>
