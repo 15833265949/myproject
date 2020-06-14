@@ -2,13 +2,14 @@ package models
 
 import (
 	"github.com/astaxie/beego/logs"
+	"github.com/jinzhu/gorm"
 	"myproject/models/mysql"
 )
 
 type Radio struct {
-	Id          int    `gorm:"auto_increment"`
+	gorm.Model
 	Title       string `grom:"size:255"`
-	OptionNum   int
+	Type        int
 	OptionA     string `grom:"size:255"`
 	OptionB     string `grom:"size:255"`
 	OptionC     string `grom:"size:255"`
@@ -19,6 +20,7 @@ type Radio struct {
 
 func GetJavaAuditionCount() (count int) {
 	db, err := mysql.GetConnect()
+	defer db.Close()
 	if err != nil {
 		logs.Debug("err:%s 数据库连接错误", err)
 	}
@@ -26,18 +28,16 @@ func GetJavaAuditionCount() (count int) {
 	return
 }
 
-func GegTenAudition(ids []int) {
+func GegTenAudition(ids []uint) (ras []*Radio) {
 	db, err := mysql.GetConnect()
+	defer db.Close()
 	if err != nil {
 		logs.Debug("err:%s 数据库连接错误", err)
 	}
-	var audition []Radio
-	logs.Error("%+v ----", ids)
-	find := db.Where("id in (?)", ids).Find(&audition)
+	radios := []*Radio{}
+	find := db.Debug().Where(ids).Find(&radios)
 	if find.Error != nil {
 		logs.Error(find.Error)
 	}
-	for _, v := range audition {
-		logs.Error("%+v =====", v)
-	}
+	return radios
 }

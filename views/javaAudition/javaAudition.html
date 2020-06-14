@@ -7,34 +7,107 @@
 
 </head>
 <body>
-<form class="layui-form layui-main" action="">
+<form class="layui-form layui-main" action="/javaAuditionBefor">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend></legend>
     </fieldset>
-
+    {{range $index,$elem := .audition}}
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <label class="layui-text" style="font-size:20px">1.定义一个包内全局字符串变量，下面语法正确的是（）</label>
+            <label class="layui-text" style="font-size:20px">{{$index | add}}.{{$elem.Title}}</label>
         </div>
         <div class="layui-input-block">
-            <input type="radio" name="sex" value="A" title="func" >
-            <input type="radio" name="sex" value="B" title="def">
-            <input type="radio" name="sex" value="C" title="struct" >
-            <input type="radio" name="sex" value="D" title="class">
+            <input type="radio" name="option{{$index}}" id="option{{$index}}" value="A" title={{$elem.OptionA}} ><br>
+            <input type="radio" name="option{{$index}}" id="option{{$index}}" value="B" title={{$elem.OptionB}} ><br>
+            <input type="radio" name="option{{$index}}" id="option{{$index}}" value="C" title={{$elem.OptionC}} ><br>
+            <input type="radio" name="option{{$index}}" id="option{{$index}}" value="D" title={{$elem.OptionD}} ><br>
         </div>
     </div>
 
-
+    {{end}}
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend></legend>
+    </fieldset>
+    <div class="layui-form-item" align="center">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        </div>
+    </div>
 </form>
+
+
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function(){
+    layui.use(['form','layer'], function(){
         var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate;
+            ,layer = layui.layer;
+        var $ = layui.jquery;
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            // if (getJsonLength(data.field) < 10){
+            //     if (getJsonLength(data.field) ==0){
+            //         layer.alert("你还一道题没做呢，去做题吧")
+            //         return false
+            //     }
+            //     console.log(data.field)
+            //     for (let i=0;i<=10;i++){
+            //         if (JSON.stringify(data.field).indexOf("option"+i) == -1){
+            //             layer.alert("你的第"+(i+1)+"题没做，赶紧去做吧")
+            //             return false
+            //         }
+            //     }
+            //
+            // }
+             let correct = [];
+            let errors = [];
+            {{range $index,$elem := .audition}}
+                if (JSON.stringify(data.field).indexOf('"option{{$index}}":"{{$elem.Answer}}"') == -1){
+                    errors.push({{$index | add}})
+                }else {
+                    correct.push({{$index | add}})
+                }
+            {{end}}
+            let str = '第'+correct+'题正确了<br>'+'<div style="color:#00fff4" >第'+errors+'题错误了'
+            // if (errors.length == 10){
+            //     str='你一道题都没做对 0.0'
+            // }
+            if (errors.length > 0){
+                // layer.msg(str, {
+                //     time: 20000, //20s后自动关闭
+                //     btn: ['去改错','改错'],
+                //     // icon: 5
+                // });
+                layer.msg('恭喜你全部答对了！', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['继续刷题'],
+                    icon: 1,
+                    yes: function(index, layero){
+                        window.location.href='/javaAuditionBefor'
+                    }
+                });
+                //
+            }else {
+                layer.msg('恭喜你全部答对了！', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['继续刷题'],
+                    icon: 1,
+                    yes: function(index, layero){
+                        console.log("1111");
+                    }
+                });
+            }
+
+            return false;
+        });
 
 
     });
+    function getJsonLength(jsonData){
+        let jsonLength = 0;
+        for(let item in jsonData){
+            jsonLength++;
+        }
+        return jsonLength;
+    }
 </script>
 </body>
 </html>
