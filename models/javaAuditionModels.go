@@ -41,3 +41,13 @@ func GegTenAudition(ids []uint) (ras []*Radio) {
 	}
 	return radios
 }
+
+func SaveRadio(redio *Radio) {
+	db, err := mysql.GetConnect()
+	//db.CreateTable(&Radio{})
+	defer db.Close()
+	if err != nil {
+		logs.Debug("err:%s 数据库连接错误", err)
+	}
+	db.Create(redio)
+}
