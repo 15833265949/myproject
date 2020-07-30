@@ -9,9 +9,6 @@ import (
 	"regexp"
 )
 
-
-var rootUrl = "http://www.doczj.com"
-
 func main() {
 
 	//gogogo("http://www.doczj.com/doc/94366972524de518974b7d79-17.html")
@@ -19,10 +16,10 @@ func main() {
 	//gogogo("http://www.doczj.com/doc/c21054447dd184254b35eefdc8d376eeaeaa1700.html")
 	//gogogo("http://www.doczj.com/doc/c21054447dd184254b35eefdc8d376eeaeaa1700-2.html")
 
-	gogogo("https://blog.csdn.net/xj28555/article/details/105767084?utm_medium=distribute.pc_feed.none-task-blog-alirecmd-30.nonecase&depth_1-utm_source=distribute.pc_feed.none-task-blog-alirecmd-30.nonecase&request_id=")
+	goShortAnswer("https://blog.csdn.net/xj28555/article/details/105767084?utm_medium=distribute.pc_feed.none-task-blog-alirecmd-30.nonecase&depth_1-utm_source=distribute.pc_feed.none-task-blog-alirecmd-30.nonecase&request_id=")
 }
 
-func gogogo(url string) {
+func goShortAnswer(url string) {
 	bool := models.IsInPath(url)
 	if bool {
 		logs.Info("%s被抓去过了，不能再抓取了",url)

@@ -34,8 +34,9 @@ func (c *JavaAuditionController) Get() {
 	for _, v := range audition {
 		logs.Info("%+v", v)
 	}
-	c.Data["audition"] = audition
-	c.TplName = "javaAudition/javaAudition.html"
+	c.Data["json"] = &audition
+	c.ServeJSON()
+	//c.TplName = "javaAudition/javaAudition.html"
 }
 
 func isContain(items []uint, item uint) bool {
